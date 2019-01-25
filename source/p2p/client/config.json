@@ -1,0 +1,5 @@
+{
+  "address" : "127.0.0.1:9999",
+  "register_instance" : "jie",
+  "remote_instance" : "remote_jie"
+}

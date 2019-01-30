@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 import logging
-logger = None
+log = None
 
 
 def init_logger():
-    globals logger
-    FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
-    logging.basicConfig(FORMAT)
-    logger = logging.getLogger('p2pserver')
+    global log
+    logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(process)d] [%(thread)d] [%(levelname)s] %(message)s')
+    log = logging.getLogger('p2pserver')
+    log.info("日志模块初始化完成")

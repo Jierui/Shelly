@@ -38,7 +38,7 @@ func (s *TcpServer) ServiceForever() {
 				panic(e)
 			}
 			s.Printf("n:%d %s", n, string(buf[0:n]))
-			s.fn(buf[0:n])
+			s.Fn(buf[0:n])
 		}
 	}()
 }

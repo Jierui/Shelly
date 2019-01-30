@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 
 import socketserver
-
+'''
+此模块弃用
+'''
 
 class UdpHandler(socketserver.BaseRequestHandler):
     def handle(self):

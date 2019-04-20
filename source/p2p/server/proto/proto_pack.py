@@ -24,7 +24,10 @@ class PackParser:
         self.buff.extend(struct.pack("{0}s".format(str_len), s.encode()))
 
     def generate_buf(self):
-        return self.buff
+        buff_len = len(self.buff)
+        data = struct.pack(">H", buff_len)
+        data.join(self.buff)
+        return data
 
 
 class UnpackParser:

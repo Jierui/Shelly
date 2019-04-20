@@ -4,16 +4,18 @@ import (
 	"log"
 	"runtime/debug"
 	"net"
+	"../proto"
 )
 
-type TcpServer struct {
+type TcpClient struct {
 	RemoteHost string
 	*log.Logger
 	Conn *net.Conn
 	Fn func(packet []byte)
+	Reader *proto.ProtoReader
 }
 
-func (s* TcpServer) Connect() error{
+func (s* TcpClient) Connect() error{
 	conn, err := net.Dial("tcp", s.RemoteHost)
 	if err != nil {
 		return err
@@ -23,7 +25,20 @@ func (s* TcpServer) Connect() error{
 	return nil
 }
 
-func (s *TcpServer) ServiceForever() {
+func (s* TcpClient) Send(data []byte) {
+	for {
+		n, err := (*s.Conn).Write(data)
+		if err != nil {
+
+		}
+		if n == len(data) {
+			return
+		}
+		data = data[n:]
+	}
+}
+
+func (s *TcpClient) ServiceForever() {
 	go func() {
 		defer func() {
 			if e := recover(); e != nil {
@@ -37,8 +52,11 @@ func (s *TcpServer) ServiceForever() {
 				(*s.Conn).Close()
 				panic(e)
 			}
-			s.Printf("n:%d %s", n, string(buf[0:n]))
-			s.Fn(buf[0:n])
+			//s.Printf("n:%d %s", n, string(buf[0:n]))
+			d := s.Reader.Read(buf[0:n])
+			if d != nil {
+				s.Fn(d)
+			}
 		}
 	}()
 }

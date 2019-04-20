@@ -1,0 +1,6 @@
+# -*- coding:utf-8 -*-
+
+OK = 0x00
+INSTANCE_NOT_EXISTS = 0x01
+NOT_KNOWN_UDP_ADDR = 0x02
+INSTANCE_IS_EXISTS = 0x03

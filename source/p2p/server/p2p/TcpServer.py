@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import selectors
 import socket
-import p2p.Logger
+import common.Logger
 import proto.proto_pack
 sel = selectors.DefaultSelector()
 
@@ -12,13 +12,13 @@ class TcpServer:
         self.ip = ip
         self.port = port
         self.sock = None
-        self.shut_down = False
+        self.is_run = False
         self.proto_reader = proto.proto_pack.ReadProto()
         self.read_handler = read_handler
 
     def accept(self, sock, mask):
         conn, addr = sock.accept()  # Should be ready
-        p2p.Logger.log.info("accepted {0} from {1}".format(conn, addr))
+        common.Logger.log.info("accepted {0} from {1}".format(conn, addr))
         conn.setblocking(False)
         sel.register(conn, selectors.EVENT_READ, self.read)
 
@@ -34,14 +34,19 @@ class TcpServer:
             sel.unregister(conn)
             conn.close()
 
+    @classmethod
+    def close_by_conn(cls, conn):
+        sel.unregister(conn)
+        conn.close()
+
     def run_forever(self):
-        self.shut_down = True
-        self.sock = socket.socket()
+        self.is_run = True
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.bind((self.ip, self.port))
         self.sock.listen(100)
         self.sock.setblocking(False)
         sel.register(self.sock, selectors.EVENT_READ, self.accept)
-        while self.shut_down:
+        while self.is_run:
             events = sel.select()
             for key, mask in events:
                 callback = key.data

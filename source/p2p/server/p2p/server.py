@@ -5,6 +5,7 @@ import socketserver
 此模块弃用
 '''
 
+
 class UdpHandler(socketserver.BaseRequestHandler):
     def handle(self):
         data = self.request[0]

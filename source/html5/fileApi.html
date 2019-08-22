@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>file api</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function ShowFileName() {
+			var file
+			//返回文件列表对象
+			var files = document.getElementById("file").files
+			for (var i = 0; i < files.length; i++) {
+				file = files[i]
+				console.log(file.name)
+			}
+		}
+	</script>
+	<input type="file" id="file" multiple size="80" />
+	<input type="button" onclick="ShowFileName();" value="文件上传"/>
+
+	<script type="text/javascript">
+		//ArrayBuffer
+		//ArrayBufferView  parent Object
+		//Uint8Array ...
+		//DataView
+		var buf = new ArrayBuffer(32)
+		var arraybuf = new Uint8Array(buf)
+		arraybuf[5] = 1
+		arraybuf[8] = 2
+		var b = new Uint8Array(buf, 8 ,1)
+		console.log(b[0])
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+ffmpeg -re -rtsp_transport tcp -i rtsp://admin:test123456@192.168.200.222/ch1/main/av_stream -vcodec libx264 -acodec aac -f flv -vprofile baseline -ar 44100 -strict -2 -ac 1 -s 1280x720 rtmp://127.0.0.1:1935/hls/fly
+::ffmpeg -re -rtsp_transport tcp -i rtsp://admin:test123456@192.168.200.222/ch1/main/av_stream -vcodec libx264 -an -f flv -vprofile baseline -ar 44100 -strict -2 -ac 1 -s 1280x720 rtmp://192.168.119.133:1940/hls/fly

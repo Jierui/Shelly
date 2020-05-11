@@ -1,6 +1,6 @@
 import struct
-read_file_path = r'D:\tmp-data\orign\plat.flv'
-write_file_path = r'D:\tmp-data\orign\modify.flv'
+read_file_path = 'D:\\tmp-data\\63-d\\test.flv'
+write_file_path = 'D:\\tmp-data\\63-d\\nometa.flv'
 read_file = open(read_file_path, 'rb')
 data = read_file.read()
 data_len = len(data)
@@ -15,6 +15,8 @@ write_buffer.extend(data[0:13])
 offset = offset + 13
 while True:
     print(offset)
+    if offset >= data_len:
+        break
     d = data[offset]
     tag_type = d & 0x1F
     d = bytearray(data[offset + 1:offset + 4])
@@ -23,16 +25,18 @@ while True:
     pos = offset + data_size + 11 + 4
     if pos > data_len:
         break
-    if tag_type == 0x09:
+    if tag_type == 0x12:
+        pass
+    elif tag_type == 0x09:
         d = data[offset + 11]
         frame_type = ((d >> 4) & 0x0F)
-        if frame_type == 2:
-            if data_size > 50:
-                write_buffer.extend(data[offset:pos])
-            else:
-                print("frame_type:%d size:%d" % (frame_type, data_size))
-        else:
-            write_buffer.extend(data[offset:pos])
+        # if frame_type == 2:
+        #     if data_size > 50:
+        #         write_buffer.extend(data[offset:pos])
+        #     else:
+        #         print("frame_type:%d size:%d" % (frame_type, data_size))
+        # else:
+        write_buffer.extend(data[offset:pos])
     else:
         write_buffer.extend(data[offset:pos])
     offset = pos
